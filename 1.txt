@@ -1,0 +1,102 @@
+!@C1/D1
+conf t
+vlan 50
+name bt.accenture.com
+exit
+int vlan 50
+ip add 10.0.2.1 255.255.254.0
+no shut
+ip dhcp excluded-add 10.0.2.1 10.0.2.100
+ip dhcp pool bt.accenture.com
+network 10.0.2.0 255.255.254.0
+default-router 10.0.2.1
+dns-server 8.8.8.8
+domain-name bt.accenture.com
+end
+show ip dhcp binding
+
+!@A1
+conf t
+int e0/0
+switchport mode access
+switchport access vlan 50
+end
+show vlan brief
+
+!@P1
+conf t
+int e0/0
+no shut
+ip add dhcp
+end
+show ip int brief
+
+!@C2/D2
+conf t
+vlan 60
+name pl.accenture.com
+exit
+int vlan 60
+ip add 10.0.129.1 255.255.255.128
+no shut
+ip dhcp excluded-add 10.0.0.129 10.0.0.179
+ip dhcp pool pl.accenture.com
+network 10.0.0.128 255.255.255.128
+default-router 10.0.0.129
+dns-server 8.8.8.8
+domain-name pl.accenture.com
+end
+show ip dhcp binding
+
+!@A2
+conf t
+int e1/0
+switchport mode access
+switchport access vlan 60
+end
+show vlan brief
+
+!@P2
+conf t
+int e1/0
+no shut
+ip add dhcp
+end
+show ip int brief
+
+!@C1
+conf t
+vlan 70
+name ml.accenture.com
+exit
+int vlan 70
+ip add 10.0.8.1 255.255.248.0
+no shut
+ip dhcp excluded-add 10.0.8.1 10.0.8.10
+ip dhcp pool pl.accenture.com
+network 10.0.0.0 255.255.248.0
+default-router 10.0.8.1
+dns-server 8.8.8.8
+domain-name ml.accenture.com
+end
+show ip dhcp binding
+
+!@C1
+conf t
+int e1/0
+switchport mode access
+switchport access vlan 70
+end
+show vlan brief
+
+!@S1
+conf t
+int e1/0
+no shut
+ip add dhcp
+end
+show ip int brief
+
+
+
+
